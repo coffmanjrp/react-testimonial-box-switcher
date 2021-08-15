@@ -1,34 +1,37 @@
+import { useEffect, useState } from 'react';
 import { FaQuoteRight, FaQuoteLeft } from 'react-icons/fa';
 import Icon from './components/Icon';
+import testimonials from './data/data';
 import './App.scss';
 
 function App() {
+  const [index, setIndex] = useState(0);
+  const { text, name, photo, position, color } = testimonials[index];
+
+  useEffect(() => {
+    setInterval(
+      () =>
+        setIndex((prev) => (prev + 1 > testimonials.length - 1 ? 0 : prev + 1)),
+      10000
+    );
+
+    // eslint-disable-next-line
+  }, []);
+
   return (
     <div className="App">
-      <div className="testimonial-container">
+      <div className="testimonial-container" style={{ backgroundColor: color }}>
         <div className="progress-bar" />
         <Icon icon={<FaQuoteRight />} className="icon icon-right" />
         <Icon icon={<FaQuoteLeft />} className="icon icon-left" />
         <div className="testimonial">
-          <p>
-            I've worked with literally hundreds of HTML/CSS developers and I
-            have to say the top spot goes to this guy. This guy is an amazing
-            developer. He stresses on good, clean code and pays heed to the
-            details. I love developers who respect each and every aspect of a
-            throughly thought out design and do their best to put it in code. He
-            goes over and beyond and transforms ART into PIXELS - without a
-            glitch, every time.
-          </p>
+          <p>{text}</p>
         </div>
         <div className="user">
-          <img
-            src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=707b9c33066bf8808c934c8ab394dff6"
-            alt=""
-            className="user-image"
-          />
+          <img src={photo} alt={name} className="user-image" />
           <div className="user-details">
-            <h4 className="username">Miyah Myles</h4>
-            <p className="role">Marketing</p>
+            <h4 className="username">{name}</h4>
+            <p className="role">{position}</p>
           </div>
         </div>
       </div>
